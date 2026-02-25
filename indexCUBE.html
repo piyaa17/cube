@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeoPya Cube | Ultra-Premium Pink Edition</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800&family=Pacifico&display=swap" rel="stylesheet">
+    
+    <script>
+      window.MathJax = {
+        tex: { inlineMath: [['$', '$']], displayMath: [['$$', '$$']] },
+        svg: { fontCache: 'global' }
+      };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.75);
+            --soft-pink: #ffdae9;
+            --hot-pink: #ff69b4;
+            --deep-pink: #ff1493;
+            --accent-pink: #fb6f92;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fff5f8 0%, #ffe4f0 100%);
+            font-family: 'Outfit', sans-serif;
+            color: #5d4a51;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+            background: radial-gradient(circle, rgba(255,105,180,0.15) 0%, transparent 70%);
+        }
+
+        .hero h1 {
+            font-family: 'Pacifico', cursive;
+            font-size: 5rem;
+            color: var(--deep-pink);
+            text-shadow: 10px 10px 0px white;
+        }
+
+        .premium-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 40px;
+            padding: 50px;
+            margin-bottom: 50px;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 25px 50px -12px rgba(255, 105, 180, 0.2);
+        }
+
+        .section-tag {
+            background: var(--hot-pink);
+            color: white;
+            padding: 8px 25px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .title-glow {
+            font-weight: 800;
+            font-size: 2.8rem;
+            color: #4a4a4a;
+            margin-bottom: 30px;
+        }
+
+        .object-box {
+            background: white;
+            padding: 25px;
+            border-radius: 30px;
+            border: 2px solid var(--soft-pink);
+            height: 100%;
+            transition: 0.3s;
+        }
+
+        .object-box:hover { transform: translateY(-5px); border-color: var(--hot-pink); }
+
+        .formula-display {
+            background: white;
+            border-radius: 35px;
+            padding: 40px;
+            text-align: center;
+            border: 2px solid #fff;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        .example-card {
+            background: #fff9fb;
+            border-left: 8px solid var(--hot-pink);
+            border-radius: 20px;
+            padding: 25px;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .quiz-box {
+            background: white;
+            border-radius: 35px;
+            padding: 40px;
+            margin-bottom: 30px;
+            border-left: 10px solid var(--soft-pink);
+        }
+
+        .btn-custom {
+            background: #fff9fb;
+            border: 2px solid #eee;
+            border-radius: 20px;
+            padding: 15px 25px;
+            width: 100%;
+            text-align: left;
+            margin-bottom: 10px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-custom:hover { border-color: var(--hot-pink); background: white; }
+        .correct { background: #d4f9e2 !important; border-color: #2ecc71 !important; }
+        .wrong { background: #ffe3e3 !important; border-color: #ff4757 !important; }
+
+        /* --- GAME STYLE: CUBE CATCH --- */
+        #game-area {
+            width: 100%;
+            height: 500px;
+            background: linear-gradient(to bottom, #fff5f8, #ffe4f0);
+            border-radius: 30px;
+            position: relative;
+            overflow: hidden;
+            border: 4px solid var(--soft-pink);
+        }
+        #basket {
+            width: 100px;
+            height: 20px;
+            background: var(--deep-pink);
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .falling-obj {
+            position: absolute;
+            padding: 10px 20px;
+            background: white;
+            border: 2px solid var(--hot-pink);
+            border-radius: 15px;
+            font-weight: 800;
+            color: var(--deep-pink);
+        }
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <h1>🎀 GeoPya Cube 🎀</h1>
+    <p class="fw-bold" style="color: var(--hot-pink); letter-spacing: 5px;">ULTIMATE LEARNING EXPERIENCE • ฅ^•ﻌ•^ฅ</p>
+</div>
+
+<div class="container">
+    
+    <div class="premium-card">
+        <span class="section-tag">Anatomy & Elements</span>
+        <h2 class="title-glow">Elements of a Cube 🌸</h2>
+        <p class="lead mb-4">A cube is a three-dimensional solid object bounded by six square faces, facets or sides, with three meeting at each vertex.</p>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="object-box">
+                    <h4 class="fw-bold text-pink">1. Faces</h4>
+                    <p>A cube has <strong>6 faces</strong> in the shape of a square, and all of them are congruent (equal area). Example: ABCD, EFGH, etc.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="object-box">
+                    <h4 class="fw-bold text-pink">2. Edges</h4>
+                    <p>A cube has <strong>12 edges</strong> of equal length. An edge is a line segment where two faces meet. Example: AB, BC, CG, etc.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="object-box">
+                    <h4 class="fw-bold text-pink">3. Vertices</h4>
+                    <p>A cube has <strong>8 vertices</strong>. A vertex is a point where three edges meet. Example: Points A, B, C, D, E, F, G, H.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="object-box">
+                    <h4 class="fw-bold text-pink">4. Face Diagonals</h4>
+                    <p>A line segment connecting two opposite vertices on a single face. Every cube has <strong>12 face diagonals</strong>. Formula: $s\sqrt{2}$.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="object-box">
+                    <h4 class="fw-bold text-pink">5. Space Diagonals</h4>
+                    <p>A line segment connecting two opposite vertices through the center of the cube. Every cube has <strong>4 space diagonals</strong>. Formula: $s\sqrt{3}$.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="premium-card">
+        <span class="section-tag">Mathematics Formula</span>
+        <h2 class="title-glow">Formulas & Calculation Examples ✍️</h2>
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="formula-display">
+                    <h5>Cube Volume</h5>
+                    <h2 class="text-pink">$V = s \times s \times s$</h2>
+                    <div class="example-card">
+                        <strong>Example:</strong> Side = $5\text{ cm}$.<br>
+                        $V = 5 \times 5 \times 5 = 125\text{ cm}^3$.
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="formula-display">
+                    <h5>Surface Area</h5>
+                    <h2 class="text-pink">$L = 6 \times s^2$</h2>
+                    <div class="example-card">
+                        <strong>Example:</strong> Side = $5\text{ cm}$.<br>
+                        $L = 6 \times (5 \times 5) = 150\text{ cm}^2$.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="premium-card">
+        <span class="section-tag">Interactive 3D</span>
+        <h2 class="title-glow">Geogebra Visualization 🎀</h2>
+        <div class="mt-4 p-2 bg-white" style="border-radius: 40px; overflow: hidden; border: 4px solid var(--soft-pink);">
+            <iframe src="https://www.geogebra.org/material/iframe/id/yqmm72ge/width/1280/height/720/rc/false/a " width="100%" height="500px" style="border:none;"></iframe>
+        </div>
+    </div>
+
+    <div class="premium-card">
+        <span class="section-tag">Quiz Time</span>
+        <h2 class="title-glow">10 Interactive Practice Questions 🐾</h2>
+        <div id="quiz-container">
+            <div class="quiz-box" data-q="1"><p class="fw-bold">1. How many edges does a cube have?</p><button class="btn-custom" onclick="check(this, true)">12 Edges</button><button class="btn-custom" onclick="check(this, false)">8 Edges</button></div>
+            <div class="quiz-box" data-q="2"><p class="fw-bold">2. Volume of a cube with side $4\text{ cm}$?</p><button class="btn-custom" onclick="check(this, true)">$64\text{ cm}^3$</button><button class="btn-custom" onclick="check(this, false)">$16\text{ cm}^3$</button></div>
+            <div class="quiz-box" data-q="3"><p class="fw-bold">3. How many vertices does a cube have?</p><button class="btn-custom" onclick="check(this, true)">8 Vertices</button><button class="btn-custom" onclick="check(this, false)">12 Vertices</button></div>
+            <div class="quiz-box" data-q="4"><p class="fw-bold">4. Area of one face is $36\text{ cm}^2$, what is the total surface area?</p><button class="btn-custom" onclick="check(this, true)">$216\text{ cm}^2$</button><button class="btn-custom" onclick="check(this, false)">$144\text{ cm}^2$</button></div>
+            <div class="quiz-box" data-q="5"><p class="fw-bold">5. What shape are the faces of a cube?</p><button class="btn-custom" onclick="check(this, true)">Square</button><button class="btn-custom" onclick="check(this, false)">Rectangle</button></div>
+            <div class="quiz-box" data-q="6"><p class="fw-bold">6. How many space diagonals does a cube have?</p><button class="btn-custom" onclick="check(this, true)">4</button><button class="btn-custom" onclick="check(this, false)">12</button></div>
+            <div class="quiz-box" data-q="7"><p class="fw-bold">7. If volume is $125\text{ cm}^3$, what is the length of the edge?</p><button class="btn-custom" onclick="check(this, true)">$5\text{ cm}$</button><button class="btn-custom" onclick="check(this, false)">$25\text{ cm}$</button></div>
+            <div class="quiz-box" data-q="8"><p class="fw-bold">8. How many face diagonals are there in total?</p><button class="btn-custom" onclick="check(this, true)">12</button><button class="btn-custom" onclick="check(this, false)">4</button></div>
+            <div class="quiz-box" data-q="9"><p class="fw-bold">9. What is the formula for Face Diagonal?</p><button class="btn-custom" onclick="check(this, true)">$s\sqrt{2}$</button><button class="btn-custom" onclick="check(this, false)">$s\sqrt{3}$</button></div>
+            <div class="quiz-box" data-q="10"><p class="fw-bold">10. An example of a cube-shaped object is?</p><button class="btn-custom" onclick="check(this, true)">Dice</button><button class="btn-custom" onclick="check(this, false)">Cupboard</button></div>
+        </div>
+    </div>
+
+    <div class="premium-card">
+        <span class="section-tag">New Game!</span>
+        <h2 class="title-glow">Game: Cube Catch Adventure 🎮</h2>
+        <p>Use your mouse or swipe to move the pink basket at the bottom!</p>
+        <div class="mb-3 fw-bold text-center p-3 bg-white rounded-pill border border-pink">
+            CHALLENGE: <span id="game-task" class="text-primary">Click Start!</span> | 
+            SCORE: <span id="game-score">0</span>
+        </div>
+        <div id="game-area">
+            <div id="basket"></div>
+        </div>
+        <div class="text-center mt-4">
+            <button class="btn btn-dark btn-lg px-5 rounded-pill" onclick="startGame()">START GAME</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // QUIZ SCRIPT
+    let qScore = 0;
+    function check(btn, isCorrect) {
+        const parent = btn.parentElement;
+        if (parent.classList.contains('answered')) return;
+        parent.classList.add('answered');
+        if(isCorrect) { btn.classList.add('correct'); qScore++; } 
+        else { btn.classList.add('wrong'); }
+    }
+
+    // GAME SCRIPT: CUBE CATCH
+    const gameArea = document.getElementById('game-area');
+    const basket = document.getElementById('basket');
+    const taskText = document.getElementById('game-task');
+    const scoreText = document.getElementById('game-score');
+    
+    let score = 0;
+    let gameActive = false;
+    let currentAnswer = null;
+
+    gameArea.addEventListener('mousemove', (e) => {
+        let rect = gameArea.getBoundingClientRect();
+        let x = e.clientX - rect.left - 50;
+        if (x < 0) x = 0;
+        if (x > rect.width - 100) x = rect.width - 100;
+        basket.style.left = x + 'px';
+    });
+
+    function startGame() {
+        score = 0;
+        scoreText.innerText = score;
+        gameActive = true;
+        nextTask();
+    }
+
+    function nextTask() {
+        if(!gameActive) return;
+        const tasks = [
+            {q: "Volume Side 2?", a: 8},
+            {q: "Total Edges?", a: 12},
+            {q: "Vertices?", a: 8},
+            {q: "Volume Side 3?", a: 27},
+            {q: "Cube Faces?", a: 6},
+            {q: "Space Diagonals?", a: 4}
+        ];
+        const t = tasks[Math.floor(Math.random() * tasks.length)];
+        taskText.innerText = t.q;
+        currentAnswer = t.a;
+        spawnObject();
+    }
+
+    function spawnObject() {
+        if(!gameActive) return;
+        const obj = document.createElement('div');
+        obj.className = 'falling-obj';
+        
+        const isTrue = Math.random() > 0.5;
+        obj.innerText = isTrue ? currentAnswer : Math.floor(Math.random() * 30);
+        
+        obj.style.left = Math.random() * (gameArea.clientWidth - 60) + 'px';
+        obj.style.top = '0px';
+        gameArea.appendChild(obj);
+
+        let fallInterval = setInterval(() => {
+            let top = parseInt(obj.style.top);
+            if (top > 480) {
+                let bRect = basket.getBoundingClientRect();
+                let oRect = obj.getBoundingClientRect();
+                
+                if (oRect.left < bRect.right && oRect.right > bRect.left) {
+                    if (parseInt(obj.innerText) === currentAnswer) {
+                        score += 10;
+                        scoreText.innerText = score;
+                        taskText.innerText = "GREAT! ✨";
+                        setTimeout(nextTask, 500);
+                    } else {
+                        score = Math.max(0, score - 5);
+                        scoreText.innerText = score;
+                    }
+                }
+                clearInterval(fallInterval);
+                obj.remove();
+                if (parseInt(obj.innerText) === currentAnswer && top > 480) {
+                    setTimeout(spawnObject, 1000);
+                }
+            } else {
+                obj.style.top = (top + 5) + 'px';
+            }
+        }, 20);
+        
+        if (Math.random() > 0.7) setTimeout(spawnObject, 1500);
+    }
+</script>
+
+</body>
+</html>
